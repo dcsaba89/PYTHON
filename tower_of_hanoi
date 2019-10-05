@@ -1,5 +1,3 @@
-import numpy as np
-
 class TowerOfHanoi:
     # default constructor 
     def __init__(self, N=3): 
@@ -10,12 +8,15 @@ class TowerOfHanoi:
     def states(self):
         print(self.disk)
         print(self.peg)
+        
     def print_peg(self, p):
         print([i for i in range(len(self.disk)) if self.disk[i] ==p])
     
     def move(self, d, p):
         if self.is_valid_move(d, p):
             self.disk[d] = p
+            if self.is_winner():
+                print("Congratulations! You win!")
         else:
             print("Invalid move")
     
@@ -23,18 +24,18 @@ class TowerOfHanoi:
         winner_flag=False
         for p in self.peg[1:]:
             if np.all(self.disk == p * np.ones(self.size, dtype=np.int)):
-                print("Congratulations! You win!")
-                break
+                return True
+        return False
         
     def is_valid_move(self, d, p):
         if p in self.peg:
             disks_on_p = [i for i in range(len(self.disk)) if self.disk[i] == p]
             if len(disks_on_p) > 0:
                 if np.max(disks_on_p) < d:
-                    return True
-                else:
                     return False
-            else: 
+                else:
+                    return True
+            else:
                 return True
         else:
             return False
